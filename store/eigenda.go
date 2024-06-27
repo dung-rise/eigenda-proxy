@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/Layr-Labs/eigenda-proxy/common"
+	"github.com/Layr-Labs/eigenda-proxy/da_client"
 	"github.com/Layr-Labs/eigenda-proxy/verify"
 	"github.com/Layr-Labs/eigenda/api/clients"
 	"github.com/ethereum/go-ethereum/rlp"
@@ -71,7 +72,8 @@ func (e EigenDAStore) Put(ctx context.Context, value []byte) (comm []byte, err e
 	if uint64(len(value)) > e.maxBlobSizeBytes {
 		return nil, fmt.Errorf("blob is larger than max blob size: blob length %d, max blob size %d", len(value), e.maxBlobSizeBytes)
 	}
-	cert, err := e.client.PutBlob(ctx, value)
+	// cert, err := e.client.PutBlob(ctx, value)
+	cert, err := da_client.PutBlob(ctx, e.client, value)
 	if err != nil {
 		return nil, err
 	}
